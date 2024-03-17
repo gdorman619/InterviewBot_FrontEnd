@@ -1,6 +1,8 @@
 from audio import record_user_audio
 import vlc
-from input_variables import *
+import os
+from dotenv import load_dotenv
+
 
 from interview_functions import login_interview_bot, \
     reset_chat_context_with_detail, \
@@ -11,7 +13,8 @@ from interview_functions import login_interview_bot, \
 input_text = ''
 
 while input_text != "7":
-
+    
+    print("")
     print("Please choose from the following options:")
     print("")
     print("1: Login To Interview Bot - This should be selected first when program is first executed.")
@@ -24,13 +27,15 @@ while input_text != "7":
     print("")
     input_text = input("Enter Selection: ")
     print("")
+    
+    load_dotenv(override=True)
 
     if input_text == '1':
 
         # Logging in
 
         response_code, response_json = login_interview_bot(
-            input_email, input_pw)
+            os.environ.get("input_email"), os.environ.get("input_pw"))
 
         if response_code == 200:
 
@@ -38,9 +43,7 @@ while input_text != "7":
 
             user_token = response_json['Token']
 
-            print(f"Logged In as: {input_email}")
-
-            print("")
+            print(f'Logged In as: {os.environ.get("input_email")}')
 
         else:
             # Need to make backend say bad credentials
@@ -51,11 +54,11 @@ while input_text != "7":
         # Resetting Chat Context with Detail
         response_code, response_json = reset_chat_context_with_detail(
             token=user_token,
-            industry=industry,
-            subject=subject,
-            job_level=job_level,
-            num_interview_questions=num_interview_questions,
-            dest_translate_lang=dest_translate_language)
+            industry=os.environ.get("industry"),
+            subject=os.environ.get("subject"),
+            job_level=os.environ.get("job_level"),
+            num_interview_questions=os.environ.get("num_interview_questions"),
+            dest_translate_lang=os.environ.get("dest_translate_language"))
 
         if response_code == 200:
 
@@ -169,7 +172,6 @@ while input_text != "7":
                 print("Content: ", item['content'])
                 print("")
                 print("Role: ", item['role'])
-                print("")
 
             print("")
 
