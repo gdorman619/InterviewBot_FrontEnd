@@ -2,6 +2,7 @@ from audio import record_user_audio
 import vlc
 import os
 from dotenv import load_dotenv
+import sys
 
 
 from interview_functions import login_interview_bot, \
@@ -49,7 +50,7 @@ while input_text != "7":
             # Need to make backend say bad credentials
             print(response_json["message"])
 
-    if input_text == '2':
+    elif input_text == '2':
 
         # Resetting Chat Context with Detail
         response_code, response_json = reset_chat_context_with_detail(
@@ -76,7 +77,7 @@ while input_text != "7":
             print("Error during setting chat context with detail")
             print(response_json)
 
-    if input_text == '3':
+    elif input_text == '3':
 
         # Receiving Bot Message
         response_code, response_json = receive_bot_message(
@@ -106,7 +107,7 @@ while input_text != "7":
             print("Error during receiving bot message")
             print(response_json)
 
-    if input_text == '4':
+    elif input_text == '4':
 
         try:
             # Replay Bot Audio
@@ -117,7 +118,7 @@ while input_text != "7":
             print("Last bot audio not able to be played.")
             print("")
 
-    if input_text == '5':
+    elif input_text == '5':
 
         record_again = True
 
@@ -151,7 +152,7 @@ while input_text != "7":
             print("Error during transcribing user text")
             print(response_json)
 
-    if input_text == '6':
+    elif input_text == '6':
 
         # Receiving Bot Message
         response_code, response_json = view_chat_history(
@@ -179,3 +180,10 @@ while input_text != "7":
             print("")
             print("Error during receiving bot message")
             print(response_json)
+            
+    elif input_text == '7':
+        print("Program exited!")
+        sys.exit(0)
+            
+    else:
+        print("Not a valid response. Please try again.")
