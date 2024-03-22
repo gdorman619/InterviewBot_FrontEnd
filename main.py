@@ -9,22 +9,24 @@ from interview_functions import login_interview_bot, \
     reset_chat_context_with_detail, \
     receive_bot_message, \
     send_user_audio, \
-    view_chat_history
+    view_chat_history, \
+    reset_chat_with_custom_context
 
 input_text = ''
 
-while input_text != "7":
+while input_text != "8":
     
     print("")
     print("Please choose from the following options:")
     print("")
     print("1: Login To Interview Bot - This should be selected first when program is first executed.")
-    print("2: Reset Chat Context With Detail")
-    print("3: Receive Bot Message")
-    print("4: Replay Last Bot Message - Will only work if audio has already played once during program execution.")
-    print("5: Record/Send User Audio")
-    print("6: View Chat History")
-    print("7: Exit Program")
+    print("2: Reset Chat Context - Template Using Variables")
+    print("3: Reset Chat Context - Full Custom Context")
+    print("4: Receive Bot Message")
+    print("5: Replay Last Bot Message - Will only work if audio has already played once during program execution.")
+    print("6: Record/Send User Audio")
+    print("7: View Chat History")
+    print("8: Exit Program")
     print("")
     input_text = input("Enter Selection: ")
     print("")
@@ -52,7 +54,7 @@ while input_text != "7":
 
     elif input_text == '2':
 
-        # Resetting Chat Context with Detail
+        # Resetting Chat Context - Template Using Variables
         response_code, response_json = reset_chat_context_with_detail(
             token=user_token,
             industry=os.environ.get("industry"),
@@ -74,10 +76,37 @@ while input_text != "7":
             print("")
 
         else:
-            print("Error during setting chat context with detail")
+            print("Error during setting chat context template with variables.")
+            print(response_json)
+            
+    elif input_text == '3':
+        
+        with open('custom_context.txt','r') as f:
+            custom_context = f.read()
+
+        # Resetting Chat Context - Full Custom Context
+        response_code, response_json = reset_chat_with_custom_context(
+            token=user_token,
+            context=custom_context)
+
+        if response_code == 200:
+
+            user_username = response_json['user_id']
+
+            user_email = response_json['user_email']
+
+            context_message = response_json['message']
+
+            print(context_message)
+
+            print("")
+
+        else:
+            print("Error during setting custom chat context.")
             print(response_json)
 
-    elif input_text == '3':
+
+    elif input_text == '4':
 
         # Receiving Bot Message
         response_code, response_json = receive_bot_message(
@@ -107,7 +136,7 @@ while input_text != "7":
             print("Error during receiving bot message")
             print(response_json)
 
-    elif input_text == '4':
+    elif input_text == '5':
 
         try:
             # Replay Bot Audio
@@ -118,7 +147,7 @@ while input_text != "7":
             print("Last bot audio not able to be played.")
             print("")
 
-    elif input_text == '5':
+    elif input_text == '6':
 
         record_again = True
 
@@ -152,7 +181,7 @@ while input_text != "7":
             print("Error during transcribing user text")
             print(response_json)
 
-    elif input_text == '6':
+    elif input_text == '7':
 
         # Receiving Bot Message
         response_code, response_json = view_chat_history(
@@ -181,7 +210,7 @@ while input_text != "7":
             print("Error during receiving bot message")
             print(response_json)
             
-    elif input_text == '7':
+    elif input_text == '8':
         print("Program exited!")
         sys.exit(0)
             

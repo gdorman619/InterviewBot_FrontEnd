@@ -129,3 +129,29 @@ def view_chat_history(token):
     response_code = response.status_code
     
     return response_code, output_json
+
+
+def reset_chat_with_custom_context(token,
+                                   context='Hello, I want you to interview me for a job.'):
+
+    headers = {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
+
+    json_data = {
+        'context': context,
+        'token': token
+    }
+
+    response = requests.post(
+        'https://interview-bot-py-run-uuzwn5a7ca-uc.a.run.app/reset-chat-and-set-custom-chat-context',
+        headers=headers,
+        json=json_data,
+    )
+
+    output_json = json.loads(response.text)
+
+    response_code = response.status_code
+
+    return response_code, output_json
