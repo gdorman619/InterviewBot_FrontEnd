@@ -58,7 +58,7 @@ def reset_chat_context_with_detail(token,
     return response_code, output_json
 
 
-def receive_bot_message(token):
+def receive_bot_message(token, elevenlabs_voice_id="t0jbNlBVZ17f02VDIeMI"):
 
     headers = {
         'accept': 'application/json',
@@ -67,6 +67,7 @@ def receive_bot_message(token):
 
     json_data = {
         'token': token,
+        'voice_id': elevenlabs_voice_id
     }
 
     response = requests.post(

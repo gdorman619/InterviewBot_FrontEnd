@@ -11,6 +11,19 @@ from interview_functions import login_interview_bot, \
     send_user_audio, \
     view_chat_history, \
     reset_chat_with_custom_context
+    
+    
+voices_dict = {
+    "Liam":"TX3LPaxmHKxFdv7VOQHJ",
+    "Serena":"pMsXgVXv3BLzUgSXRplE",
+    "Jeremy":"bVMeCyTHy58xNoL34h3p",
+    "Michael":"flq6f7yk4E4fJM5XTYuZ",
+    "Freya":"jsCqWAovK2LkecY7zXl4",
+    "Grace":"oWAxZDx7w5VEj9dCyTzz",
+    "Jessie":"t0jbNlBVZ17f02VDIeMI",
+    "Domi":"AZnzlk1XvdvUeBnXmlld",
+    "Drew":"29vD33N1CtxCmqQRPOHJ",
+}
 
 input_text = ''
 
@@ -32,6 +45,8 @@ while input_text != "8":
     print("")
     
     load_dotenv(override=True)
+    
+    
 
     if input_text == '1':
 
@@ -107,10 +122,13 @@ while input_text != "8":
 
 
     elif input_text == '4':
+        
+        # Defaults to Jessie voice if incorrect name put in .env file.
+        chosen_voice_id = voices_dict.get(os.environ.get("voice_name"),"t0jbNlBVZ17f02VDIeMI")
 
         # Receiving Bot Message
         response_code, response_json = receive_bot_message(
-            token=user_token)
+            token=user_token, elevenlabs_voice_id=chosen_voice_id)
 
         if response_code == 200:
 
